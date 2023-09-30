@@ -55,26 +55,37 @@ export const addTodo = async (body: ITodo) => {
 }
 
 export const signUp = async (uniqueID: string, username: string, password: string) => {
-	let data = null
 	try {
 		console.log("signing-signUp")
 		const res = await client.post("/sign-up", { id: uniqueID, username, password })
 		// const res = await client.post('sign-up', {id: "12", username: "muka", password: "this"})
 		console.log(res)
-		data = res
-	} catch (err) {
-		data = {
-			success: false,
-			// @ts-ignore
-			message: err?.message,
-			// @ts-ignore
-			status: err?.response.status,
+		return {
+			success: true,
+			message: res.statusText,
+			status: res.status,
+			data: res.data
 		}
+	} catch (err) {
+		if (err instanceof AxiosError) {
+			return {
+				success: false,
+				message: err.message,
+				status: err.status,
+				data: {},
+			}
+		}
+		return {
+			success: false,
+			message: "something went wrong",
+			status: 400,
+			data: {},
+		}
+
 		// @ts-ignore
 		// console.dir(err)
 		// console.log(err.message, err?.status)
 	}
-	return data
 }
 
 export const signIn = async (username: string) => {
@@ -172,36 +183,35 @@ export const getCategory = async (id: string) => {
 }
 
 export const deleteTodo = async (id: string) => {
-	try{
-
-		const res = await client.delete('/delete-todo', {params: {id}})
-		return {success: true}
-	}catch(err){
+	try {
+		const res = await client.delete("/delete-todo", { params: { id } })
+		return { success: true }
+	} catch (err) {
 		console.log(err)
 		return {
-			success: false
+			success: false,
 		}
 	}
 }
 
-export const getTodo = async (id:string) => {
-	try{
-		const res = await client.get('/get-todo', {params: {id}})
+export const getTodo = async (id: string) => {
+	try {
+		const res = await client.get("/get-todo", { params: { id } })
 		return {
 			data: res.data?.response,
-			status: res.status
+			status: res.status,
 		}
-	}catch(error){
+	} catch (error) {
 		console.log(error)
-		if(error instanceof AxiosError){
+		if (error instanceof AxiosError) {
 			return {
 				data: {},
-				status: error.status
+				status: error.status,
 			}
 		}
 		return {
 			data: {},
-			status: 400
+			status: 400,
 		}
 	}
 }
@@ -209,12 +219,12 @@ export const getTodo = async (id:string) => {
 export const updateTodo = async (todo: ITodo) => {
 	console.log(todo)
 	try {
-		const res = await client.put('/update-todo', todo)
+		const res = await client.put("/update-todo", todo)
 		return {
-			success: true
+			success: true,
 		}
 	} catch (error) {
 		console.log(error)
-		return {success: false}
+		return { success: false }
 	}
 }

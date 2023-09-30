@@ -5,18 +5,19 @@ import Layout from "../layout/Layout"
 import { client } from "../util/axios"
 import { Oval } from "react-loader-spinner"
 import { ICategory } from "../types/types"
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/20/solid"
 
 const Home = () => {
-	// if (!isSignedIn) {
-	// 	navigate("/sign-up")
-	// }
 	const { isSignedIn, username, userID } = useContext(AppContext)
+	const navigate = useNavigate()
 	const [categories, setCategories] = useState<ICategory[]>([])
 	const [isLoading, setIsLoading] = useState(true)
-	console.log(isSignedIn, "hello")
-	console.log("hello world")
-	const navigate = useNavigate()
+	// console.log(isSignedIn, "hello")
+	// console.log("hello world")
 	const location = useLocation()
+	if (!isSignedIn) {
+		navigate("/sign-up")
+	}
 
   const goToCategory = (id:string) => {
     navigate(`/category/${id}`)
@@ -42,11 +43,14 @@ const Home = () => {
 
 	return (
 		<Layout>
-			<div className='w-full pt-48 pb-16 flex flex-col gap-y-16 items-center'>
+			<div className='w-full pt-48 pb-16 flex flex-col gap-y-16 items-center relative'>
+				<div className="absolute top-10 right-10">
+					<ArrowRightOnRectangleIcon width={50}/>
+				</div>
 				<h2 className='text-3xl md:text-7xl'>
-					Welcome, <span className='font-bold'>{`{${username}}`}</span>
+					Welcome, <span className='font-bold '>{`{${username}}`}</span>
 				</h2>
-				<div className='w-3/5'>
+				<div className='w-4/5 md:w-3/5'>
 					<input
 						type='text'
 						className='indent-2 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'

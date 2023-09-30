@@ -64,10 +64,11 @@ app.post("/sign-up", async (req, res) => {
 	try {
 		const userCred = await signUp(uniqueID, username, hashedPassword)
 		console.log(userCred)
-		if (userCred.status >= 200 && userCred.status < 300) {
-			res.send({ username, id: uniqueID, message: "signed up successfully" }).status(userCred.status)
-		} else {
-			throw new Error(userCred.status)
+		if(userCred.success){
+			// @ts-ignore
+			res.send({id: uniqueID, username}).status(userCred?.status)
+		}else{
+			res.status(400).send("something went wrong")
 		}
 	} catch (err) {
 		// @ts-ignore

@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, useParams } from "react-router"
+import { Outlet, useLocation, useNavigate, useParams } from "react-router"
 import Layout from "../layout/Layout"
 import { useEffect, useState } from "react"
 import { ICategory, ITodo } from "../types/types"
@@ -19,6 +19,8 @@ const CategoryID = () => {
 	const params = useParams()
 	const { id } = params
 	console.log(params, id)
+
+    const location = useLocation()
 
 	const navigate = useNavigate()
 
@@ -60,7 +62,7 @@ const CategoryID = () => {
 
 	useEffect(() => {
 		getTodos()
-	}, [id])
+	}, [location.pathname])
 
     
 

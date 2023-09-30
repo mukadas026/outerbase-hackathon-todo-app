@@ -7,7 +7,7 @@ import { CheckIcon, TrashIcon } from "@heroicons/react/20/solid"
 import { notify } from "./SignIn"
 
 const CategoryID = () => {
-	const [isLoading, setIsloading] = useState(true)
+	// const [isLoading, setIsloading] = useState(true)
 	const [category, setCategory] = useState<ICategory>({
 		name: "",
 		createdAt: "",

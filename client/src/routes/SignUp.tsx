@@ -4,13 +4,14 @@ import { client } from "../util/axios"
 import { TailSpin } from "react-loader-spinner"
 import { AppContext } from "../context/AppContextProvider"
 import { notify } from "./SignIn"
+import { useViewTransition } from "../util/useViewTransition"
 
 export default function SignUp() {
 	const [usernameInput, setUsernameInput] = useState("")
 	const [password, setPassword] = useState("")
 	const [isLoading, setIsLoading] = useState(false)
 
-  const {setUsername, setIsSignedIn, setUserID} = useContext(AppContext)
+	const { setUsername, setIsSignedIn, setUserID } = useContext(AppContext)
 
 	const navigate = useNavigate()
 
@@ -23,25 +24,25 @@ export default function SignUp() {
 				username: usernameInput,
 				password,
 			})
-      if (res.status >= 200 && res.status < 300){
-        notify("signed up successfully", "success")
-        setUsername(res.data?.username)
-        setIsSignedIn(true)
-        setUserID(res.data?.id)
-        setIsLoading(false)
-        navigate('/')
-      }
+			if (res.status >= 200 && res.status < 300) {
+				notify("signed up successfully", "success")
+				setUsername(res.data?.username)
+				setIsSignedIn(true)
+				setUserID(res.data?.id)
+				setIsLoading(false)
+				useViewTransition(() => navigate("/"))
+			}
 			console.log(res)
 		} catch (err) {
-      notify("something went wrong, please try again", "error")
+			notify("something went wrong, please try again", "error")
 			console.log(err)
 			setIsLoading(false)
 		}
 	}
 	return (
 		<>
-			<div className='flex w-screen max-w-[1920px] h-screen max-h-[1080px] min-h-full flex-1'>
-        {/* <ToastContainer /> */}
+			<div className='flex w-screen max-w-[1920px] h-screen max-h-[1080px] min-h-full flex-1 sign-container'>
+				{/* <ToastContainer /> */}
 				<div className='flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24'>
 					<div className='mx-auto w-full max-w-sm lg:w-96'>
 						<div>
@@ -154,7 +155,7 @@ export default function SignUp() {
 
 								<div>
 									<button
-										onClick={() => navigate("/sign-in")}
+										onClick={() => useViewTransition(() => navigate("/sign-in"))}
 										className='flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
 									>
 										Sign in

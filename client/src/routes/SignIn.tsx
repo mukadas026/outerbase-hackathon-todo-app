@@ -5,6 +5,7 @@ import { AppContext } from "../context/AppContextProvider"
 import { TailSpin } from "react-loader-spinner"
 import {  TypeOptions, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { useViewTransition } from "../util/useViewTransition"
 export const notify = (message: string, type: TypeOptions = "default") => {
 	toast(message, {
 		type: type,
@@ -28,7 +29,7 @@ export default function SignIn() {
 				setUsername(res.data?.username)
 				setIsSignedIn(res.data?.password)
         setUserID(res.data?.id)
-				navigate("/")
+				useViewTransition(() => navigate("/"))
 			}
 			console.log(res.data)
 		} catch (err) {
@@ -40,7 +41,7 @@ export default function SignIn() {
 	}
 	return (
 		<>
-			<div className='flex w-screen max-w-[1920px] h-screen max-h-[1080px] min-h-full flex-1'>
+			<div className='flex w-screen max-w-[1920px] h-screen max-h-[1080px] min-h-full flex-1 sign-container'>
 				{/* <ToastContainer /> */}
 				<div className='flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24'>
 					<div className='mx-auto w-full max-w-sm lg:w-96'>
@@ -154,7 +155,7 @@ export default function SignIn() {
 
 								<div>
 									<button
-										onClick={() => navigate("/sign-up")}
+										onClick={() => useViewTransition(() => navigate("/sign-up"))}
 										className='flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
 									>
 										Sign Up

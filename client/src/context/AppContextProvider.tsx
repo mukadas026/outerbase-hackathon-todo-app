@@ -1,5 +1,6 @@
 import { createContext, useState } from "react"
-import { IPropsWithChildren } from "../types/types"
+import { ICategory, IPropsWithChildren } from "../types/types"
+
 
 export const AppContext = createContext<any>(null)
 
@@ -7,6 +8,7 @@ const AppContextProvider = ({ children }: IPropsWithChildren) => {
 	const [username, setUsername] = useState("")
 	const [isSignedIn, setIsSignedIn] = useState(false)
 	const [userID, setUserID] = useState("")
+	const [categories, setCategories] = useState<ICategory[]>([])
 
 	const value = {
 		isSignedIn,
@@ -14,7 +16,9 @@ const AppContextProvider = ({ children }: IPropsWithChildren) => {
 		username,
 		setUsername,
 		userID,
-		setUserID
+		setUserID,
+		categories,
+		setCategories,
 	}
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>
